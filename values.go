@@ -19,6 +19,10 @@ func GetFlags(dir string, args []string) (map[string]string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to get commit: %v", err)
 	}
+	gitCommitFull, err := repo.CommitFull()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get full commit: %v", err)
+	}
 	gitCommitMsg, err := repo.CommitMsg()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get commit message: %v", err)
@@ -39,12 +43,13 @@ func GetFlags(dir string, args []string) (map[string]string, error) {
 	}
 
 	v := map[string]string{
-		pkg + ".BuildDate":    date(),
-		pkg + ".GitCommit":    gitCommit,
-		pkg + ".GitCommitMsg": gitCommitMsg,
-		pkg + ".GitBranch":    gitBranch,
-		pkg + ".GitState":     gitState,
-		pkg + ".GitSummary":   gitSummary,
+		pkg + ".BuildDate":     date(),
+		pkg + ".GitCommit":     gitCommit,
+		pkg + ".GitCommitFull": gitCommitFull,
+		pkg + ".GitCommitMsg":  gitCommitMsg,
+		pkg + ".GitBranch":     gitBranch,
+		pkg + ".GitState":      gitState,
+		pkg + ".GitSummary":    gitSummary,
 	}
 
 	// calculate the version

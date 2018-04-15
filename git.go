@@ -29,7 +29,12 @@ func (g git) Commit() (string, error) {
 	return g.exec("rev-parse", "--short", "HEAD")
 }
 
-// CommitMsg returns the commit message of the most recent commit
+// CommitFull returns the full git commit hash.
+func (g git) CommitFull() (string, error) {
+	return g.exec("rev-parse", "HEAD")
+}
+
+// CommitMsg returns the commit message of the most recent commit.
 func (g git) CommitMsg() (string, error) {
 	return g.exec("log", "-1", "--pretty=%B")
 }
