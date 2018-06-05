@@ -86,14 +86,10 @@ $ go build -ldflags="$(govvv -flags -version 1.2.3)"
 
 ## Try govvv today
 
-    $ go get github.com/ahmetb/govvv
+    $ go get github.com/JoshuaDoes/govvv
 
 ------
 
 govvv is distributed under [Apache 2.0 License](LICENSE).
 
-Copyright 2016 Ahmet Alp Balkan 
-
-------
-
-[![Build Status](https://travis-ci.org/ahmetb/govvv.svg?branch=master)](https://travis-ci.org/ahmetb/govvv)
+Copyright 2016 Ahmet Alp Balkan
