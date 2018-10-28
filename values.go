@@ -44,6 +44,7 @@ func GetFlags(dir string, args []string) (map[string]string, error) {
 	}
 
 	gitCommitMsg = strings.Replace(gitCommitMsg, "'", "\\'", -1)
+	gitCommitMsg = strings.Replace(gitCommitMsg, "-", "\\-", -1)
 
 	v := map[string]string{
 		pkg + ".BuildDate":     date(),
