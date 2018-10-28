@@ -17,7 +17,7 @@ func mkLdFlags(values map[string]string) (string, error) {
 		}
 		ldFlag := fmt.Sprintf("-X %s=%s", k, v)
 		if len(strings.Fields(v)) > 1 {
-			ldFlag = fmt.Sprintf("-X '%s=%s'", k, v) // surround the value with single quotes
+			ldFlag = fmt.Sprintf("-X \"%s=%s\"", k, v) // surround the value with quotes
 		}
 
 		i++

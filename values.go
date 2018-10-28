@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -41,6 +42,8 @@ func GetFlags(dir string, args []string) (map[string]string, error) {
 	if value, ok := collectGovvvDirective(args, flPackage); ok {
 		pkg = value
 	}
+
+	gitCommitMsg = strings.Replace(gitCommitMsg, "'", "\\'", -1)
 
 	v := map[string]string{
 		pkg + ".BuildDate":     date(),
