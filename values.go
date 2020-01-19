@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -59,13 +60,12 @@ func GetFlags(dir string, args []string) (map[string]string, error) {
 	// calculate the version
 	if value, ok := collectGovvvDirective(args, flVersion); ok {
 		v[pkg+".Version"] = value
+	} else if value, err = versionFromFile(dir); err == nil {
+		v[pkg+".Version"] = value
+	} else if value, err = versionFromGit(repo); err == nil {
+		v[pkg+".Version"] = value
 	} else {
-		value, err := versionFromFile(dir)
-		if err != nil {
-			return nil, err
-		} else if value != "" {
-			v[pkg+".Version"] = value
-		}
+		return nil, fmt.Errorf("failed to get repository version: %v", err)
 	}
 
 	return v, nil
@@ -83,10 +83,35 @@ func versionFromFile(dir string) (string, error) {
 	fp := filepath.Join(dir, versionFile)
 	b, err := ioutil.ReadFile(fp)
 	if os.IsNotExist(err) {
-		return "", nil
+		return "", fmt.Errorf("failed to find version file %s: %v", fp, err)
 	}
+
 	if err != nil {
 		return "", fmt.Errorf("failed to read version file %s: %v", fp, err)
 	}
 	return string(bytes.TrimSpace(b)), nil
+}
+
+func versionFromGit(repo git) (string, error) {
+	tag, err := repo.Tag()
+	if err != nil {
+		return "", err
+	}
+
+	var cmCount string
+	cmCount, err = repo.CommitsCount(tag)
+	if err != nil {
+		return "", err
+	}
+
+	var cmInt int
+	if cmInt, err = strconv.Atoi(cmCount); err != nil {
+		return "", err
+	}
+
+	if cmInt > 0 {
+		tag += "-rc." + cmCount
+	}
+
+	return tag, nil
 }

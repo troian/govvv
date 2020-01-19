@@ -16,7 +16,7 @@ Stop worrying about `-ldflags` and **`go get github.com/ahmetb/govvv`** now.
 | **`main.GitState`** | whether there are uncommitted changes | `clean` or `dirty` | 
 | **`main.GitSummary`** | output of `git describe --tags --dirty --always` | `v1.0.0`, <br/>`v1.0.1-5-g585c78f-dirty`, <br/> `fbd157c` |
 | **`main.BuildDate`** | RFC3339 formatted UTC date | `2016-08-04T18:07:54Z` |
-| **`main.Version`** | contents of `./VERSION` file, if exists, or the value passed via the `-version` option | `2.0.0` |
+| **`main.Version`** | contents of `./VERSION` file, if exists, or the value passed via the `-version` option, or guess from git | `2.0.0` |
 
 ## Using govvv is easy
 
@@ -93,3 +93,4 @@ $ go build -ldflags="$(govvv -flags -version 1.2.3)"
 govvv is distributed under [Apache 2.0 License](LICENSE).
 
 Copyright 2016 Ahmet Alp Balkan
+Copyright 2020 Artur Troian
