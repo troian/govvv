@@ -39,6 +39,16 @@ func (g git) CommitMsg() (string, error) {
 	return g.exec("log", "-1", "--pretty=%B")
 }
 
+// Tag return most recent tag
+func (g git) Tag() (string, error) {
+	return g.exec("describe", "--abbrev=0", "--tags")
+}
+
+// CommitsCount returns amount of from ref till HEAD
+func (g git) CommitsCount(ref string) (string, error) {
+	return g.exec("rev-list", fmt.Sprintf("%s..", ref), "--count")
+}
+
 // State returns the repository state indicating whether
 // it is "clean" or "dirty".
 func (g git) State() (string, error) {
